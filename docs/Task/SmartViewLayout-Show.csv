@@ -1,0 +1,54 @@
+CPRS Visibility,OMSC Login or DISP,Title,Description,Enable Rules,False Description,ColorT/ColorF,Picture,InternalID,Button Text,Button Function,Button Detail
+CPrS,,Prepare for Operation,,,,,,,,,
+,,,Acknowledge Alarms,T:32;T:31;+;0;>,OK-No Alarms,,,,Ack,SYSTEM,Clear Alarms
+,,,Enter Auto Mode,PriorStepsReady,Enter Auto Mode,,,,Auto Startup,SYSTEM,AutoStart
+,,,,,,,,,,,
+CPrS,,Robot Move,,,,,,,,,
+,,,Arm / Enable Robots,T:17;0;=,Robots are Ready,,,,Arm Robots,SYSTEM,Arm Robot
+,,,Move to Weld Position,,,,,,Move pre Weld,MOVE TO,<RoboApps>\RoboApp-6AxisRobot.vi::Home Base Position
+,,,Move to Home,,,,,,Move Home,MOVE TO,<RoboApps>\RoboApp_HandTeach-Weld.vi::Weld Area::ACTION
+CPrS,,Turntable,,,,,,,,,
+,,,Rotate to A (Red),,,,,,To A,<RoboApps>\RoboApp_CTrackPointer.vi,Inspection Angle A
+,,,Rotate to B (Black),,,,,,To B,<RoboApps>\RoboApp_CTrackPointer.vi,Inspection Angle B
+,,,,,,,,,,,
+CPRS,DISPLAY,Operational Status,,,,,,,,,
+CPRS,DISPLAY,>,Table Position {T:8029/%d},,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+END,##########,##########,##########,##########,##########,##########,##########,##########,##########,##########,##########
+0  APRS Visibility,1  OMSC Login,2  Title,3  Description,4  Enable Rules,5  False Description,6  ColorT/ColorF,7  Picture,8  InternalID,9  Button Text,10 Button Function,11 Button Detail...
+,Button restricted,Can include {} statements,Can include {} statements,RPN;separated T/F statement,,picks based on EnableRules,name of file in image dir,<internal>,Changes to /\ or\/ if heading,MOVE TO or SYSTEM,
+,,pre {T:11/yes/no} post,,picks decription,,use color names,,,,MOVE TO,<RoboApps>\RoboApp-6AxisRobot.vi::Storage Position
+Config,Operator,pre {T:11/%d} post,,ex:T:9004;T:9005;+;5;>,,only valid with enable rules,,,,SYSTEM,CLEAR ALARMS
+Prepare,Maintenance,pre {T:11/%.3f} post,,true if they add up to more than 5,,RED,,,,SYSTEM,IDLE ALL
+Running,Style Edit,Gripper {T:8015/HELD/-}  {T:8016/RELEASED/-},,,,GREEN,,,,SYSTEM,SHARE DATA;ID;data
+Service(Manual),Config,,,,,BLUE,,,,SYSTEM,PICK STYLE
+,or   just,,,,,YELLOW,,,,SYSTEM,AUTOSTART
+,DISPLAY,,,,,RRGGBB,,,,SYSTEM,GET READY
+,,,,,,,,,,SYSTEM,ARM ROBOT
+,,,,,,,,,,SYSTEM,TAG MATH;T:TAGNAME=T:Tagname+R:RecipeItem;-Value;+T:TAGNEM;…
+,,,,,,,,,,<RoboApps>\RoboApp_Gripper-Basic.vi,Toggle Gripper;parameter;parameter2
+,,,,,,,,,,ROBOT ACTION,PUT;<RoboApps>\RoboApp_Fixed Clamp.vi::Wire Handoff
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,TAG MATH;T:9005=702
+,,,Wire Control {T:4000/HOLD/FEED},,,,,,Wire Spool,RoboApp_SMAC Tension Control.vi,Toggle Unwind
+,,,xxSimulate RFID Read,,,,,,Bypass,<RoboApps>\RoboApp_RFIDTracking.vi,Select Without RFID
+,,,xxIgnore Camera,,,,,,No Camera,<RoboApps>\RoboApp_Weave Patterns.vi,Ignore Camera
+,,,xxFind Board With Camera,,,,,,Find Board,<RoboApps>\RoboApp_Machine Alignment Camera.vi,Find and Update Transform
+,,,,,,,,,,,
+,,,xxRead RFID,,,,,,Read,<RoboApps>\RoboApp_RFIDTracking.vi,Read RFID
+,,,,,,,,,,,
+,,,,,,,,,,,
+,M,,Put Glass on Rack,T:17;1;=,Robot not Ready,,,,PUT to Rack,ROBOT ACTION,PUT;<RoboApps>\RoboApp_BuildGlassRack.vi::Dropoff Location R1
+,M,,Pick Glass From Rack,T:17;1;=,Robot not Ready,,,,GET from Rack,ROBOT ACTION,GET;<RoboApps>\RoboApp_BuildGlassRack.vi::Dropoff Location R1
+,,,,,,,,,,,
+,M,,Store Far Robot,T:17;1;=,Not Ready to Move to Storage,,,,To Storage,MOVE TO,<RoboApps>\RoboApp-6AxisRobot.vi::Storage Position
+,M,,Store Near Robot,T:17;1;=,Not Ready to Move to Storage,,,,To Storage,MOVE TO,<RoboApps>\RoboApp-Additional6AxisRobot.vi::Storage Position

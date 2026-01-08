@@ -1,0 +1,15 @@
+Active,Title,X::Y,Full Path,Picture,0Always1HideRunning234OtherMonitor11Tiny12Simple13Med14Big15Oval,
+1,Cell Control,12::26,<RoboApps>\NODE_AutomationFlowManager.vi,,5,Cprs
+1,Near Robot,208::73,<RoboApps>\RoboApp-6AxisRobot.vi,GLG_Robot.jpg,15,CPRS
+1,Safety,1014::596,<RoboApps>\NODE_Safety_LIP-Enet.vi,EStop.jpg,15,CPRS
+1,Glassline IO,1606::796,<RoboApps>\RoboApp_ModbusPackedData.vi,KD_IOADAM.jpg,5,Cprs
+1,Near Gripper,225::196,<RoboApps>\RoboApp_Modbus Vac Tool.vi,GC-CupTool.jpg,0,CPRS
+1,Glass Position,225::456,<RoboApps>\RoboApp_Glass Position Camera.vi,GC-Camera.jpg,0,CPRS
+1,Conveyor,1014::196,<RoboApps>\RoboApp_ConveyorPickZone.vi,GLG_Conveyor.JPG,15,CPRS
+1,Rack,1328::196,<RoboApps>\RoboApp_BuildGlassRack.vi,GLG_Rack.jpg,0,CPRS
+1,Cullet Bins,1014::460,<RoboApps>\RoboApp_DiscardZone.vi,Inspect.jpg,5,Cprs
+1,Idle Tool,329::496,<RoboApps>\RoboApp_GenericTool.vi,qpoint.jpg,5,Cprs
+1,Idle Tool,329::496,<RoboApps>\RoboApp_GenericTool-B.vi,qpoint.jpg,5,Cprs
+1,Far Robot,518::73,<RoboApps>\RoboApp-Additional6AxisRobot.vi,GLG_Robot.jpg,15,CPRS
+1,Far Gripper,525::196,<RoboApps>\RoboApp_Modbus Vac Tool-B.vi,GC-CupTool.jpg,0,CPRS
+1,Turn Table,1010::325,<RoboApps>\RoboApp_Two Position Rotary Table.vi,GGL_TurntableBlue.jpg,15,CPRS

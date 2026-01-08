@@ -1,0 +1,91 @@
+CPRS Visibility,OMSC Login or DISP,Title,Description,Enable Rules,False Description,ColorT/ColorF,Picture,InternalID,Button Text,Button Function,Button Detail
+CPrS,,Board Preparation,,,,,,,,,
+,,,Acknowledge Alarms,T:32;T:31;+;0;>,OK-No Alarms,,,,Ack,SYSTEM,Clear Alarms
+,,,Select Style,,,,,,Select…,SYSTEM,Pick Style
+,,,Read RFID,,,,,,Read,<RoboApps>\RoboApp_RFIDTracking.vi,Read RFID
+,,,Recall Latest Board ID,,,,,,Bypass RFID,<RoboApps>\RoboApp_RFIDTracking.vi,Select Without RFID
+,,,Ignore Camera,,,,,,No Camera,<RoboApps>\RoboApp_Weave Patterns.vi,Ignore Camera
+,,,Find Board With Camera,,,,,,Find Board,<RoboApps>\RoboApp_Machine Alignment Camera.vi,Find and Update Transform
+,DISPLAY,,Active Board ID#{T:8033/%d},T:8032;0;>,No Board ID Selected,,,,,,
+,DISPLAY,,Camera Position Adjustment IGNORED,T:11;0;<,-,,,,,,
+,DISPLAY,,Board Location is OK,T:8042;0;>,Camera Targets Not Identified In Range,GREEN/RED,,,,,
+,,,Clamp Board,,,,,,Clamp,<RoboApps>\RoboApp_UnitLoading.vi,Close Clamp
+,,,UnClamp Board,,,,,,Open,<RoboApps>\RoboApp_UnitLoading.vi,Open Clamp
+,,,,,,,,,,,
+,,,,,,,,,,,
+CPrS,,Wire Preparation,,,,,,,,,
+,,,Arm / Enable Robot,T:17;0;=,Robots are Ready,,,,Arm Robots,SYSTEM,Arm Robot
+,M,,Move to Wire Change,T:17;1;=,Not Ready to Move to Wire Change,,,,To Wire,MOVE TO,<RoboApps>\RoboApp-6AxisRobot.vi::Service Position
+,M,,Move to Storage,T:17;1;=,Not Ready to Move to Storage,,,,To Storage,MOVE TO,<RoboApps>\RoboApp-6AxisRobot.vi::Storage Position
+,M,,Hold Robot to Storage,T:17;1;=,Not Ready to Move to Storage,,,,Holder to Storage,MOVE TO,<RoboApps>\RoboApp-Additional6AxisRobot.vi::Storage Position
+,,,Wire Control {T:4000/HOLD/FEED},,,,,,Wire Spool,RoboApp_SMAC Tension Control.vi,Toggle Unwind
+,DISPLAY,,Wire Feed is ENABLED,T:4000,Wire Feed is HELD,GREEN/RED,,,,,
+,DISPLAY,,Wire Tension OK,T:8037,Wire Tension FAILED,GREEN/RED,,,,,
+,,,Upper Wire Guide Arm,,,,,,Guide Arm UP,<RoboApps>\RoboApp_SMAC Tension Control.vi,Raise Upper Guide
+,,,Upper Wire Guide Arm,,,,,,Guide Arm DOWN,<RoboApps>\RoboApp_SMAC Tension Control.vi,Lower Upper Guide
+,,,Robot {T:6009/RELEASE/GRIP} Wire,,,,,,Gripper,<RoboApps>\RoboApp_Gripper-Basic.vi,Toggle Gripper
+XXXX,,Enter Auto Mode,,,,,,,,,
+,,,Enter Auto Mode,PriorStepsReady,Enter Auto Mode,,,,Auto Startup,SYSTEM,AutoStart
+,,,,,,,,,,,
+CpRs,DISPLAY,Automated Wire Stringing Process,,,,,,,,,
+,DISPLAY,,Other Request: {T:9005} > {T:9006},,,,,,,,
+,DISPLAY,,Stringer Process: {T:9001} > {T:9003},,,,,,,,
+,DISPLAY,,Holder Process: {T:9002} > {T:9004},,,,,,,,
+,DISPLAY,,Stringing Step: {T:8016} > {T:9011},,,,,,,,
+,DISPLAY,,Holding Step: {T:8017} > {T:9013},,,,,,,,
+CPRs,DISPLAY,Board Readiness,,,,,,,,,
+,DISPLAY,,Board is Secured,T:8047,Board is not secured properly,GREEN/RED,,,,,
+,DISPLAY,,Board ID OK ({T:8032/%d}),T:8032,Board Type Not Known,GREEN/RED,,,,,
+,DISPLAY,,Camera Position OK,T:8042,Camera Did Not Register Part Sufficiently,GREEN/RED,,,,,
+CPRs,DISPLAY,Wire Readiness,,,,,,,,,
+,DISPLAY,,Wire Spool Active,T:4000,Wire Spool Off,GREEN/RED,,,,,
+,DISPLAY,,Wire Held by: -{T:8043/[Robot]/-} {T:8045/[Fixed Clamp]/-} {T:8043;T:8045;+;0;=/[---NOTHING---]/-},,,,,,,,
+CPRS,DISPLAY,Process Tracking,,,,,,,,,
+,DISPLAY,,Stringing Progress: {HMI/C:\comprehensiveROBOTICSsolution\HMI\Status.csv/<APPWHITETEXT>/7},,,,,,,,
+,DISPLAY,,Camera Status: {HMI/C:\comprehensiveROBOTICSsolution\HMI\Status.csv/<APPWHITETEXT>/9},,,,,,,,
+,DISPLAY,,Main: {HMI/C:\comprehensiveROBOTICSsolution\HMI\Status.csv/<AUTOSCRIPTS>/1},,,,,,,,
+,DISPLAY,,Stringer: {HMI/C:\comprehensiveROBOTICSsolution\HMI\Status.csv/<AUTOSCRIPTS>/2},,,,,,,,
+,DISPLAY,,Holder: {HMI/C:\comprehensiveROBOTICSsolution\HMI\Status.csv/<AUTOSCRIPTS>/3},,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+CpRs,,Runtime Control,,,,,,,,,
+,,,Prepare Pin Check,,,,,,Pin Check,SYSTEM,TAG MATH;T:9005=350
+,,,Prepare Stringing Plan,,,,,,Prep Plan,SYSTEM,TAG MATH;T:9005=300
+,,,Initiate Stringing Process,,,,,,GO,SYSTEM,TAG MATH;T:9005=400
+,,,Put Wire in Starting Clamp,,,,,,Start Wire,SYSTEM,TAG MATH;T:9005=500
+,,,Complete Board and Cut Wire,,,,,,Cut Wire,SYSTEM,TAG MATH;T:9005=500
+,,,,,,,,,,,
+CpRs,,Runtime Manipulation,,,,,,,,,
+,,,Clamp Board,,,,,,CLAMP,<RoboApps>\RoboApp_UnitLoading.vi,Close Clamp
+,,,Check Board Size,,,,,,Check Size,<RoboApps>\RoboApp_UnitLoading.vi,Log Sizes
+,,,Find Board With Camera,,,,,,Find Board,<RoboApps>\RoboApp_Machine Alignment Camera.vi,Find and Update Transform
+,,,Store Board,,,,,,Store Board,<RoboApps>\RoboApp_UnitLoading.vi,Return Board to Rack
+,,,Get New Board,,,,,,Get Board,<RoboApps>\RoboApp_UnitLoading.vi,Get Next Board to Run
+,,,,,,,,,,,
+CprS,,Partial Operation,,,,,,,,,
+,M,,Place Wire in Fixed Clamp,T:17;1;=,Robot not Ready,,,,Handoff Wire,ROBOT ACTION,PUT;<RoboApps>\RoboApp_Fixed Clamp.vi::Wire Handoff
+,M,,Cut Wire Away,T:17;1;=,Robot not Ready,,,,Cut Wire,ROBOT ACTION,GET;<RoboApps>\RoboApp_Fixed Clamp.vi::Wire Cutoff
+,M,,Move to Storage,T:17;1;=,Not Ready to Move to Storage,,,,To Storage,MOVE TO,<RoboApps>\RoboApp-6AxisRobot.vi::Storage Position
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+END,##########,##########,##########,##########,##########,##########,##########,##########,##########,##########,##########
+0  APRS Visibility,1  OMSC Login,2  Title,3  Description,4  Enable Rules,5  False Description,6  ColorT/ColorF,7  Picture,8  InternalID,9  Button Text,10 Button Function,11 Button Detail...
+,Button restricted,Can include {} statements,Can include {} statements,RPN;separated T/F statement,,picks based on EnableRules,name of file in image dir,<internal>,Changes to /\ or\/ if heading,MOVE TO or SYSTEM,
+,,pre {T:11;yes;no} post,,picks decription,,use color names,,,,MOVE TO,<RoboApps>\RoboApp-6AxisRobot.vi::Storage Position
+Config,Operator,pre {T:11;%d} post,,ex:T:9004;T:9005;+;5;>,,only valid with enable rules,,,,SYSTEM,CLEAR ALARMS
+Prepare,Maintenance,pre {T:11;%.3f} post,,true if they add up to more than 5,,RED,,,,SYSTEM,IDLE ALL
+Running,Style Edit,pre {HMI/C:\comprehensiveROBOTICSsolution\HMI\Status.csv/<APP STATUS>/3},,,,GREEN,,,,SYSTEM,SHARE DATA;ID;data
+Service,Config,,,,,BLUE,,,,SYSTEM,PICK STYLE
+,or   just,,,,,YELLOW,,,,SYSTEM,AUTOSTART
+,DISPLAY,,,,,RRGGBB,,,,SYSTEM,GET READY
+,,,,,,,,,,SYSTEM,ARM ROBOT
+,,,,,,,,,,SYSTEM,TAG MATH;T:TAGNAME=T:Tagname+R:RecipeItem;-Value;+T:TAGNEM;…
+,,,,,,,,,,<RoboApps>\RoboApp_Gripper-Basic.vi,Toggle Gripper;parameter;parameter2
+,,,,,,,,,,ROBOT ACTION,PUT;<RoboApps>\RoboApp_Fixed Clamp.vi::Wire Handoff

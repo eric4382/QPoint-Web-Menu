@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Interactive Tree</title>
+  <style>
+    svg {
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+    }
+    text {
+      font-family: sans-serif;
+      font-size: 12px;
+      pointer-events: none; /* So clicks go to the circle */
+    }
+  </style>
+</head>
+<body>
+  <h2>Interactive Tree Structure</h2>
+  <svg id="tree" width="800" height="400"></svg>
+
+  <script>
+
+	// -------------------------------
+	// RECEIVE messages from C#   -  was not able to get it to prouce activity on web page side
+	// -------------------------------
+	//window.chrome.webview.addEventListener('message', event => {
+	//	console.log("C# sent:", event.data);
+    //
+	//	// Show it on the page
+	//	document.getElementById("status").innerText =
+	//		"Received from C#: " + event.data;
+    //
+	//	// Optional popup
+	//	alert("C# senttt: " + event.data);
+	//});
+
+
+
+//********************************************** Fucntions related to the tree view
+    const treeData = {
+      name: "Root",
+      children: [
+        {
+          name: "Child 1",
+          children: [
+            { name: "Grandchild 1.1" },
+            { name: "Grandchild 1.2" }
+          ]
+        },
+        {
+          name: "Child 2",
+          children: [
+            { name: "Grandchild 2.1" }
+          ]
+        }
+      ]
+    };
+
+    const svg = document.getElementById("tree");
+    const nodeRadius = 20;
+    let ySpacing = 80;
+    let xSpacing = 100;
+    let currentX = 50;
+
+    function drawNode(node, depth, parentX, parentY) {
+      let x = currentX;
+      let y = depth * ySpacing + 50;
+
+      // Draw line from parent to current node
+      if (parentX !== null && parentY !== null) {
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("x1", parentX);
+        line.setAttribute("y1", parentY);
+        line.setAttribute("x2", x);
+        line.setAttribute("y2", y);
+        line.setAttribute("stroke", "#555");
+        svg.appendChild(line);
+      }
+
+      // Draw node circle
+      const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      circle.setAttribute("cx", x);
+      circle.setAttribute("cy", y);
+      circle.setAttribute("r", nodeRadius);
+      circle.setAttribute("fill", "#6fa8dc");
+      circle.style.cursor = "pointer";
+      circle.addEventListener("click", () => {
+		webPageActivity(node.name);     //********************************<<<This needs to exist where we report back to the supervisory Robotics application
+      });
+      svg.appendChild(circle);
+
+      // Draw node label
+      const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      label.setAttribute("x", x);
+      label.setAttribute("y", y + 4);
+      label.setAttribute("text-anchor", "middle");
+      label.setAttribute("fill", "#fff");
+      label.textContent = node.name;
+      svg.appendChild(label);
+
+      // Draw children
+      if (node.children) {
+        let startX = currentX;
+        node.children.forEach(child => {
+          currentX += xSpacing;
+          drawNode(child, depth + 1, x, y);
+        });
+        currentX = (startX + currentX - xSpacing) / 2;
+      }
+    }
+
+    drawNode(treeData, 0, null, null);
+	
+	
+	//********************************************************* the supervisory Robotics application is able to trigger any java script function with a single string as the parameter
+	//********************************************************* can likely do more parameters with ease as well as we pass as a full encoded string
+	
+	function MABScript(messageTxt) {
+	   alert(`You clicked onnnn: ${messageTxt}`);
+	}
+
+	function getGreeting(name) {
+		return `back at ya, ${name}!`; //***we can and need return functions for some, we see this data
+	}
+	
+	function message(messageTxt) {
+	   alert(`script called with parameter: ${messageTxt}`);
+	}
+	
+	function setBackground(color) {  // will likely want some visual adjustment style functions to be available
+		document.body.style.backgroundColor = color;
+		alert(`script called with parameter: ${color}`);
+	}
+	
+	// -------------------------------
+    // SEND message to C#
+    // -------------------------------
+	//THIS IS THE IMPORTANT FUNCTION THAT ALL WEB PAGE ACTIVITIES NEED THAT TRIGGER EXTERNAL REAPONSIVE ACTOIVITY form the Supervisory Roboatics application
+	function webPageActivity(txt) {
+		window.chrome.webview.postMessage("MABScript was called with: " + txt);
+	}
+	
+	
+   
+	
+/*C:\_DEVEL_\WebView2Embedder\WebView2-VS Embed-vB/WinFormsApp.sln*/
+/*C:\comprehensiveROBOTICSsolution\HMI/treeviewGraphicalTest.html*/
+/*C:\_DEVEL_\WebView2Embedder/WebView2Browser.vi*/
+	
+  </script>
+</body>
+</html>
