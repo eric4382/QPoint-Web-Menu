@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QPoint Web Menu</title>
+    <title>QPoint Web Menu - Final Combined Mockup</title>
     <style>
         body {
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Arial, sans-serif;
-            background: #1e1e1e;
+            background: #111;
             color: #eee;
         }
 
@@ -18,102 +18,140 @@
             width: 460px;
             min-height: 874px;
             overflow-y: auto;
-            background: linear-gradient(to right, #2a2a2a, #1a1a1a);
-            padding: 10px;
+            background: #0f0f0f;
+            padding: 15px;
             box-sizing: border-box;
-            border-right: 4px solid #c00;
+            border-right: 5px solid #c00;
         }
 
         .header {
             text-align: center;
-            padding: 20px;
-            background: linear-gradient(to bottom, #c00, #a00);
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #c00, #600);
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 6px 15px rgba(200, 0, 0, 0.4);
         }
 
         .header h1 {
-            font-size: 32px;
+            font-size: 38px;
             color: #fff;
             margin: 0;
-            text-shadow: 2px 2px 6px #000;
+            text-shadow: 0 0 12px #f00;
         }
 
         .header h2 {
-            font-size: 18px;
-            color: #fff;
-            margin: 5px 0 0;
+            font-size: 20px;
+            color: #ddd;
+            margin: 8px 0 0;
         }
 
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 15px;
-            background: linear-gradient(to bottom, #c00, #900);
+            padding: 16px 20px;
             color: #fff;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
-            border-radius: 10px;
-            margin: 10px 0 5px;
+            border-radius: 12px;
+            margin: 15px 0 8px;
             cursor: pointer;
             user-select: none;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .section-header:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
         }
 
         .section-header .chevron {
-            font-size: 24px;
-            transition: transform 0.3s ease;
+            font-size: 28px;
+            transition: transform 0.4s ease;
         }
 
         .section-header.collapsed .chevron {
             transform: rotate(-90deg);
         }
 
+        /* Color-coded section headers - intuitive visual grouping */
+        .header-prepare {
+            background: linear-gradient(to right, #c00, #900);
+        }
+
+        /* Red - Critical prep */
+        .header-robots {
+            background: linear-gradient(to right, #b22222, #800000);
+        }
+
+        /* Deep red - Motion */
+        .header-grippers {
+            background: linear-gradient(to right, #1e90ff, #104e8b);
+        }
+
+        /* Blue - Tools/Control */
+        .header-handling {
+            background: linear-gradient(to right, #228b22, #006400);
+        }
+
+        /* Green - Process */
+        .header-vision {
+            background: linear-gradient(to right, #ffd700, #cdad00);
+            color: #000;
+        }
+
+        /* Yellow - Monitoring */
+        .header-favorites {
+            background: linear-gradient(to right, #4b0082, #2f004f);
+        }
+
+        /* Purple - Quick access */
+
         .submenu {
             overflow: hidden;
-            transition: max-height 0.4s ease, padding 0.4s ease;
-            max-height: 2000px;
-            /* Large enough when open */
-            padding: 0 10px;
+            transition: max-height 0.6s ease, padding 0.6s ease;
+            max-height: 4000px;
+            padding: 10px 20px;
         }
 
         .submenu.collapsed {
             max-height: 0;
-            padding: 0 10px;
+            padding: 0 20px;
         }
 
         .item {
             display: flex;
             align-items: center;
-            padding: 14px 12px;
-            background: #333;
-            margin: 8px 0;
-            border-radius: 10px;
-            border-left: 5px solid #c00;
-            transition: all 0.2s;
+            padding: 18px 16px;
+            background: #1c1c1c;
+            margin: 12px 0;
+            border-radius: 14px;
+            border-left: 8px solid #c00;
+            transition: all 0.3s ease;
         }
 
         .item:hover {
-            background: #444;
-            transform: translateX(5px);
+            background: #2a2a2a;
+            transform: translateX(10px);
+            box-shadow: 0 8px 20px rgba(200, 0, 0, 0.25);
         }
 
         .item.disabled {
-            opacity: 0.6;
-            border-left-color: #666;
+            opacity: 0.55;
+            border-left-color: #555;
         }
 
         .item-icon {
-            width: 45px;
-            height: 45px;
-            margin-right: 15px;
+            width: 52px;
+            height: 52px;
+            margin-right: 20px;
             object-fit: contain;
-            filter: brightness(1.3);
-            background: rgba(255, 255, 255, 0.1);
-            padding: 5px;
-            border-radius: 8px;
+            filter: brightness(1.5) contrast(1.2);
+            background: rgba(255, 255, 255, 0.08);
+            padding: 8px;
+            border-radius: 12px;
         }
 
         .item-content {
@@ -121,63 +159,70 @@
         }
 
         .item-title {
-            font-size: 17px;
+            font-size: 19px;
             color: #fff;
+            font-weight: 600;
         }
 
         .item-subtext {
-            font-size: 13px;
-            color: #aaa;
+            font-size: 14px;
+            color: #bbb;
+            margin-top: 4px;
         }
 
         .item-button {
-            padding: 10px 18px;
+            padding: 12px 22px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: bold;
-            font-size: 15px;
+            font-size: 16px;
             cursor: pointer;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
-            transition: all 0.2s;
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.6);
+            transition: all 0.25s;
         }
 
         .item-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.6);
+            transform: scale(1.08);
         }
 
-        /* Colors based on screenshots */
         .btn-robot {
             background: linear-gradient(to bottom, #c00, #900);
             color: #fff;
         }
 
-        /* Red for robot moves */
         .btn-action {
-            background: linear-gradient(to bottom, #ffc107, #e0a800);
+            background: linear-gradient(to bottom, #ffd700, #cdad00);
             color: #000;
         }
 
         .btn-device {
-            background: linear-gradient(to bottom, #28a745, #1e7e34);
+            background: linear-gradient(to bottom, #32cd32, #228b22);
             color: #fff;
         }
 
         .btn-nav {
-            background: linear-gradient(to bottom, #007bff, #0056b3);
+            background: linear-gradient(to bottom, #1e90ff, #104e8b);
             color: #fff;
         }
 
         .checklist-icon {
-            color: #0f0;
+            color: #32cd32;
             font-weight: bold;
-            margin-right: 8px;
+            margin-right: 10px;
+            font-size: 22px;
         }
 
         .favorite-star {
-            color: #ff0;
-            margin-left: 10px;
-            font-size: 20px;
+            color: #ffd700;
+            margin-left: 14px;
+            font-size: 24px;
+        }
+
+        #status {
+            color: #0f0;
+            font-size: 14px;
+            margin: 10px 0;
+            text-align: center;
         }
     </style>
 </head>
@@ -189,45 +234,38 @@
             <h2>Robotic Solutions</h2>
         </div>
 
-        <div class="section-header" onclick="toggleSection(this)">
+        <!-- Status area - receives messages from supervisory app -->
+        <div id="status">Waiting for supervisory app updates...</div>
+
+        <!-- Prepare for Operation (Red) -->
+        <div class="section-header header-prepare" onclick="toggleSection(this)">
             Prepare for Operation <span class="chevron">▼</span>
         </div>
         <div class="submenu">
             <div class="item">
                 <div class="item-content">
                     <div class="item-title"><span class="checklist-icon">✓</span>Robot Move - R1 Near</div>
-                    <div class="item-subtext">Robot not Ready</div>
+                    <div class="item-subtext">Ready / Robot not Ready</div>
                 </div>
-                <button class="item-button btn-robot">Move</button>
+                <button class="item-button btn-robot" onclick="webPageActivity('MOVE_R1_NEAR')">Move</button>
             </div>
             <div class="item">
                 <div class="item-content">
                     <div class="item-title"><span class="checklist-icon">✓</span>Robot Move - R2 Far</div>
                     <div class="item-subtext">Need Other Robot at Side</div>
                 </div>
-                <button class="item-button btn-robot">Move</button>
-            </div>
-            <div class="item">
-                <div class="item-content">
-                    <div class="item-title">Suction Cups - Grip</div>
-                </div>
-                <button class="item-button btn-action">Grip</button>
-            </div>
-            <div class="item">
-                <div class="item-content">
-                    <div class="item-title">Suction Cups - Release</div>
-                </div>
-                <button class="item-button btn-action">Release</button>
+                <button class="item-button btn-robot" onclick="webPageActivity('MOVE_R2_FAR')">Move</button>
             </div>
             <div class="item">
                 <div class="item-content">
                     <div class="item-title">Enter Auto Mode</div>
                 </div>
-                <button class="item-button btn-device">Start</button>
+                <button class="item-button btn-device" onclick="webPageActivity('ENTER_AUTO')">Start</button>
             </div>
         </div>
 
-        <div class="section-header collapsed" onclick="toggleSection(this)">
+        <!-- Robots (Deep Red) -->
+        <div class="section-header header-robots collapsed" onclick="toggleSection(this)">
             Robots <span class="chevron">▼</span>
         </div>
         <div class="submenu collapsed">
@@ -237,9 +275,7 @@
                     <div class="item-title">Near Robot</div>
                     <div class="item-subtext">SafeNot Found</div>
                 </div>
-
-
-                <button class="item-button btn-robot">Move</button>
+                <button class="item-button btn-robot" onclick="webPageActivity('ROBOT_NEAR')">Move</button>
             </div>
             <div class="item">
                 <img class="item-icon" src="_Graphics/GLG_Robot.jpg" alt="Far Robot">
@@ -247,11 +283,12 @@
                     <div class="item-title">Far Robot</div>
                     <div class="item-subtext">SafeNot Found</div>
                 </div>
-                <button class="item-button btn-robot">Move</button>
+                <button class="item-button btn-robot" onclick="webPageActivity('ROBOT_FAR')">Move</button>
             </div>
         </div>
 
-        <div class="section-header collapsed" onclick="toggleSection(this)">
+        <!-- Grippers & Tools (Blue) -->
+        <div class="section-header header-grippers collapsed" onclick="toggleSection(this)">
             Grippers & Tools <span class="chevron">▼</span>
         </div>
         <div class="submenu collapsed">
@@ -261,7 +298,7 @@
                     <div class="item-title">Near Gripper</div>
                     <div class="item-subtext">Released</div>
                 </div>
-                <button class="item-button btn-device">Grip</button>
+                <button class="item-button btn-device" onclick="webPageActivity('GRIP_NEAR')">Grip</button>
                 <span class="favorite-star">★</span>
             </div>
             <div class="item">
@@ -270,11 +307,12 @@
                     <div class="item-title">Far Gripper</div>
                     <div class="item-subtext">Released</div>
                 </div>
-                <button class="item-button btn-device">Grip</button>
+                <button class="item-button btn-device" onclick="webPageActivity('GRIP_FAR')">Grip</button>
             </div>
         </div>
 
-        <div class="section-header collapsed" onclick="toggleSection(this)">
+        <!-- Material Handling (Green) -->
+        <div class="section-header header-handling collapsed" onclick="toggleSection(this)">
             Material Handling <span class="chevron">▼</span>
         </div>
         <div class="submenu collapsed">
@@ -282,9 +320,9 @@
                 <img class="item-icon" src="_Graphics/GLG_Conveyor.JPG" alt="Conveyor">
                 <div class="item-content">
                     <div class="item-title">Conveyor</div>
-                    <div class="item-subtext">0mm Overhang Shift</div>
+                    <div class="item-subtext">Overhang Shift</div>
                 </div>
-                <button class="item-button btn-device">Run</button>
+                <button class="item-button btn-device" onclick="webPageActivity('CONVEYOR_RUN')">Run</button>
             </div>
             <div class="item">
                 <img class="item-icon" src="_Graphics/GLG_Rack.jpg" alt="Rack">
@@ -292,24 +330,12 @@
                     <div class="item-title">Rack</div>
                     <div class="item-subtext">2% Full</div>
                 </div>
-                <button class="item-button btn-action">Load</button>
-            </div>
-            <div class="item">
-                <div class="item-content">
-                    <div class="item-title">Cullet Bins</div>
-                </div>
-                <button class="item-button btn-action">Discard</button>
-            </div>
-            <div class="item">
-                <div class="item-content">
-                    <div class="item-title">Turn Table</div>
-                    <div class="item-subtext">Not OK</div>
-                </div>
-                <button class="item-button btn-device">Rotate</button>
+                <button class="item-button btn-action" onclick="webPageActivity('RACK_LOAD')">Load</button>
             </div>
         </div>
 
-        <div class="section-header collapsed" onclick="toggleSection(this)">
+        <!-- Vision & Safety (Yellow) -->
+        <div class="section-header header-vision collapsed" onclick="toggleSection(this)">
             Vision & Safety <span class="chevron">▼</span>
         </div>
         <div class="submenu collapsed">
@@ -319,18 +345,19 @@
                     <div class="item-title">Glass Position</div>
                     <div class="item-subtext">0000 n/a</div>
                 </div>
-                <button class="item-button btn-nav">Detect</button>
+                <button class="item-button btn-nav" onclick="webPageActivity('GLASS_DETECT')">Detect</button>
             </div>
             <div class="item">
                 <img class="item-icon" src="_Graphics/EStop.jpg" alt="Safety">
                 <div class="item-content">
                     <div class="item-title">Safety</div>
                 </div>
-                <button class="item-button btn-action">Clear</button>
+                <button class="item-button btn-action" onclick="webPageActivity('SAFETY_CLEAR')">Clear</button>
             </div>
         </div>
 
-        <div class="section-header" onclick="toggleSection(this)">
+        <!-- Favorites (Purple) -->
+        <div class="section-header header-favorites" onclick="toggleSection(this)">
             Favorites <span class="chevron">▼</span>
         </div>
         <div class="submenu">
@@ -339,29 +366,48 @@
                 <div class="item-content">
                     <div class="item-title">Near Gripper</div>
                 </div>
-                <button class="item-button btn-device">Grip</button>
+                <button class="item-button btn-device" onclick="webPageActivity('FAV_GRIP')">Grip</button>
             </div>
         </div>
     </div>
 
     <script>
+        // Toggle section expand/collapse
         function toggleSection(header) {
             header.classList.toggle('collapsed');
             const submenu = header.nextElementSibling;
             submenu.classList.toggle('collapsed');
         }
 
-        // Communication stubs
-        document.querySelectorAll('.item-button').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const title = btn.closest('.item')?.querySelector('.item-title')?.innerText.trim() || 'Unknown';
-                webPageActivity(`Action: ${title}`);
-            });
+        // Send activity to supervisory app (IMPORTANT FUNCTION)
+        function webPageActivity(message) {
+            console.log('WebPageActivity:', message);
+            // In real WebView2: window.chrome.webview.postMessage(message);
+            // For demo: show on page
+            document.getElementById('status').innerText = 'Sent to app: ' + message;
+        }
+
+        // Receive messages from supervisory app (C# → JS)
+        window.addEventListener('message', event => {
+            // In real WebView2: window.chrome.webview.addEventListener('message', event => { ... })
+            const data = event.data;
+            console.log('Received from supervisory app:', data);
+            document.getElementById('status').innerText = 'App update: ' + data;
+
+            // Example: change background or item state
+            if (data.includes('background')) {
+                document.body.style.background = '#001122';
+            }
         });
 
-        function webPageActivity(str) {
-            console.log('Sent to supervisory app:', str);
-            // In production: window.chrome.webview.postMessage(str); or similar
+        // Optional demo functions callable from C#
+        function setBackground(color) {
+            document.body.style.background = color;
+            document.getElementById('status').innerText = 'Background changed to: ' + color;
+        }
+
+        function updateStatus(text) {
+            document.getElementById('status').innerText = text;
         }
     </script>
 </body>
