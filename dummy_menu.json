@@ -1,0 +1,353 @@
+{
+  "menuVersion": "1.1",
+  "lastUpdated": "2026-01-28T14:30:00Z",
+  "branding": {
+    "title": "QPoint Robotic Solutions",
+    "subtitle": "Web Based User Interface",
+    "menuStructureLabel": "Menu Structure",
+    "backgroundStyle": "geometric-network"
+  },
+  "root": [
+    {
+      "id": "favorites",
+      "type": "heading",
+      "headingText": "Favorites",
+      "subText": "Quick Access",
+      "enabled": true,
+      "isFavoriteSection": true,
+      "icon": "star-favorite.png",
+      "children": [
+        {
+          "id": "grip_near_fav",
+          "type": "action",
+          "buttonText": "Near Gripper",
+          "fullPath": "<RoboApps>\\RoboApp_ModbusVacTool.vi",
+          "actionType": "device_control",
+          "enabled": true,
+          "statusText": "Released",
+          "icon": "GC-CupTool.jpg",
+          "favorite": true
+        },
+        {
+          "id": "clear_alarms_fav",
+          "type": "action",
+          "buttonText": "Clear Alarms",
+          "fullPath": "<RoboApps>\\NODE_Safety_LIP-Enet.vi",
+          "actionType": "system",
+          "enabled": true,
+          "statusText": "No Active Alarms",
+          "icon": "EStop.jpg",
+          "favorite": true
+        },
+        {
+          "id": "r1_near_fav",
+          "type": "action",
+          "buttonText": "R1 Near",
+          "fullPath": "<RoboApps>\\RoboApp_6AxisRobot.vi",
+          "actionType": "robot_motion",
+          "enabled": true,
+          "statusText": "Ready",
+          "icon": "GLG_Robot.jpg",
+          "favorite": true
+        },
+        {
+          "id": "conveyor_fav",
+          "type": "action",
+          "buttonText": "Conveyor",
+          "fullPath": "<RoboApps>\\RoboApp_ConveyorPickZone.vi",
+          "actionType": "device_control",
+          "enabled": true,
+          "statusText": "15 Cprs",
+          "icon": "GLG_Conveyor.JPG",
+          "favorite": true
+        }
+      ]
+    },
+    {
+      "id": "prepare",
+      "type": "heading",
+      "headingText": "Prepare for Operation",
+      "subText": "Startup & Safety Checklist",
+      "enabled": true,
+      "icon": "startup-checklist.png",
+      "children": [
+        {
+          "id": "safety_check",
+          "type": "heading",
+          "headingText": "Safety Checks",
+          "subText": "Mandatory before operation",
+          "enabled": true,
+          "children": [
+            {
+              "id": "e_stop_clear",
+              "type": "checklist_item",
+              "buttonText": "E-Stop Clear",
+              "fullPath": "<RoboApps>\\NODE_Safety_LIP-Enet.vi",
+              "actionType": "system",
+              "enabled": true,
+              "completed": false,
+              "statusText": "Pending",
+              "icon": "EStop.jpg"
+            },
+            {
+              "id": "light_curtain",
+              "type": "checklist_item",
+              "buttonText": "Light Curtain Clear",
+              "fullPath": "<RoboApps>\\NODE_Safety_LIP-Enet.vi",
+              "actionType": "system",
+              "enabled": true,
+              "completed": true,
+              "statusText": "OK",
+              "icon": "safety-curtain.png"
+            }
+          ]
+        },
+        {
+          "id": "robot_move_prepare",
+          "type": "action",
+          "buttonText": "Robot Move - R1 Near",
+          "fullPath": "<RoboApps>\\RoboApp_6AxisRobot.vi",
+          "actionType": "robot_motion",
+          "enabled": true,
+          "statusText": "Ready",
+          "icon": "GLG_Robot.jpg"
+        },
+        {
+          "id": "enter_auto",
+          "type": "action",
+          "buttonText": "Enter Auto Mode",
+          "fullPath": "<RoboApps>\\NODE_AutomationFlowManager.vi",
+          "actionType": "system",
+          "enabled": true,
+          "statusText": "All Clear",
+          "icon": "auto-mode.png"
+        }
+      ]
+    },
+    {
+      "id": "robots",
+      "type": "heading",
+      "headingText": "Robots",
+      "subText": "Motion & Positioning",
+      "enabled": true,
+      "icon": "robot-arm.png",
+      "children": [
+        {
+          "id": "near_robot",
+          "type": "heading",
+          "headingText": "Near Robot",
+          "subText": "R1 - Primary 6-Axis",
+          "enabled": true,
+          "children": [
+            {
+              "id": "move_r1_pathend",
+              "type": "action",
+              "buttonText": "Move To PATHEND",
+              "fullPath": "<RoboApps>\\RoboApp_6AxisRobot.vi",
+              "actionType": "robot_motion",
+              "enabled": true,
+              "statusText": "Ready"
+            },
+            {
+              "id": "home_r1",
+              "type": "action",
+              "buttonText": "Home Position",
+              "fullPath": "<RoboApps>\\RoboApp_6AxisRobot.vi",
+              "actionType": "robot_motion",
+              "enabled": true,
+              "statusText": "Safe"
+            },
+            {
+              "id": "r1_status",
+              "type": "action",
+              "buttonText": "Status Check",
+              "fullPath": "<RoboApps>\\RoboApp_6AxisRobot.vi",
+              "actionType": "monitor",
+              "enabled": true,
+              "statusText": "Online"
+            }
+          ]
+        },
+        {
+          "id": "far_robot",
+          "type": "heading",
+          "headingText": "Far Robot",
+          "subText": "R2 - Secondary 6-Axis",
+          "enabled": true,
+          "children": [
+            {
+              "id": "move_r2_position",
+              "type": "action",
+              "buttonText": "Move To Position",
+              "fullPath": "<RoboApps>\\RoboApp_Additional6AxisRobot.vi",
+              "actionType": "robot_motion",
+              "enabled": false,
+              "statusText": "SafeNot Found"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "grippers_tools",
+      "type": "heading",
+      "headingText": "Grippers & Tools",
+      "subText": "Vacuum & Generic",
+      "enabled": true,
+      "icon": "gripper.png",
+      "children": [
+        {
+          "id": "near_gripper",
+          "type": "action",
+          "buttonText": "Near Gripper",
+          "fullPath": "<RoboApps>\\RoboApp_ModbusVacTool.vi",
+          "actionType": "device_control",
+          "enabled": true,
+          "statusText": "Released",
+          "icon": "GC-CupTool.jpg",
+          "favorite": true
+        },
+        {
+          "id": "far_gripper",
+          "type": "action",
+          "buttonText": "Far Gripper",
+          "fullPath": "<RoboApps>\\RoboApp_ModbusVacTool-B.vi",
+          "actionType": "device_control",
+          "enabled": true,
+          "statusText": "Released",
+          "icon": "GC-CupTool.jpg"
+        },
+        {
+          "id": "idle_tool",
+          "type": "action",
+          "buttonText": "Idle Tool",
+          "fullPath": "<RoboApps>\\RoboApp_GenericTool.vi",
+          "actionType": "device_control",
+          "enabled": true,
+          "statusText": "5 Cprs",
+          "icon": "qpoint.jpg"
+        }
+      ]
+    },
+    {
+      "id": "material_handling",
+      "type": "heading",
+      "headingText": "Material Handling",
+      "subText": "Conveyor, Rack & More",
+      "enabled": true,
+      "icon": "conveyor.png",
+      "children": [
+        {
+          "id": "conveyor",
+          "type": "action",
+          "buttonText": "Conveyor",
+          "fullPath": "<RoboApps>\\RoboApp_ConveyorPickZone.vi",
+          "actionType": "device_control",
+          "enabled": true,
+          "statusText": "15 Cprs",
+          "icon": "GLG_Conveyor.JPG"
+        },
+        {
+          "id": "rack",
+          "type": "action",
+          "buttonText": "Rack",
+          "fullPath": "<RoboApps>\\RoboApp_BuildGlassRack.vi",
+          "actionType": "device_control",
+          "enabled": true,
+          "statusText": "0 Cprs",
+          "icon": "GLG_Rack.jpg"
+        },
+        {
+          "id": "cullet_bins",
+          "type": "action",
+          "buttonText": "Cullet Bins",
+          "fullPath": "<RoboApps>\\RoboApp_DiscardZone.vi",
+          "actionType": "device_control",
+          "enabled": true,
+          "statusText": "5 Cprs",
+          "icon": "Inspect.jpg"
+        },
+        {
+          "id": "turn_table",
+          "type": "action",
+          "buttonText": "Turn Table",
+          "fullPath": "<RoboApps>\\RoboApp_TwoPositionRotaryTable.vi",
+          "actionType": "device_control",
+          "enabled": true,
+          "statusText": "15 Cprs",
+          "icon": "GGL_TurntableBlue.jpg"
+        }
+      ]
+    },
+    {
+      "id": "vision_positioning",
+      "type": "heading",
+      "headingText": "Vision & Positioning",
+      "subText": "Camera & Alignment",
+      "enabled": true,
+      "icon": "camera.png",
+      "children": [
+        {
+          "id": "glass_position",
+          "type": "action",
+          "buttonText": "Glass Position",
+          "fullPath": "<RoboApps>\\RoboApp_GlassPositionCamera.vi",
+          "actionType": "vision",
+          "enabled": true,
+          "statusText": "0000 n/a",
+          "icon": "GC-Camera.jpg"
+        }
+      ]
+    },
+    {
+      "id": "safety_io",
+      "type": "heading",
+      "headingText": "Safety & IO",
+      "subText": "E-Stop & Communication",
+      "enabled": true,
+      "icon": "safety.png",
+      "children": [
+        {
+          "id": "safety_main",
+          "type": "action",
+          "buttonText": "Safety",
+          "fullPath": "<RoboApps>\\NODE_Safety_LIP-Enet.vi",
+          "actionType": "system",
+          "enabled": true,
+          "statusText": "15 Cprs",
+          "icon": "EStop.jpg"
+        },
+        {
+          "id": "glassline_io",
+          "type": "action",
+          "buttonText": "Glassline IO",
+          "fullPath": "<RoboApps>\\RoboApp_ModbusPackedData.vi",
+          "actionType": "device_control",
+          "enabled": true,
+          "statusText": "5 Cprs",
+          "icon": "KD_LOADAM.jpg"
+        }
+      ]
+    },
+    {
+      "id": "cell_control",
+      "type": "heading",
+      "headingText": "Cell Control",
+      "subText": "Automation Flow Manager",
+      "enabled": true,
+      "icon": "cell-control.png",
+      "children": [
+        {
+          "id": "cell_main",
+          "type": "action",
+          "buttonText": "Cell Control",
+          "fullPath": "<RoboApps>\\NODE_AutomationFlowManager.vi",
+          "actionType": "system",
+          "enabled": true,
+          "statusText": "5 Cprs",
+          "icon": "qpoint.jpg"
+        }
+      ]
+    }
+  ]
+}

@@ -4,185 +4,286 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QPoint Web Menu - Final Combined Mockup</title>
+    <title>QPoint Web Menu</title>
+    <!-- Font Awesome 6 Free CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body {
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Arial, sans-serif;
-            background: #111;
+            background: #0a0a0a;
             color: #eee;
+            height: 100vh;
+            overflow: hidden;
+            touch-action: manipulation;
         }
 
-        .menu-container {
+        #menu-container {
             width: 460px;
-            min-height: 874px;
+            height: 100vh;
+            background: linear-gradient(to bottom, #111, #000);
             overflow-y: auto;
-            background: #0f0f0f;
             padding: 15px;
             box-sizing: border-box;
-            border-right: 5px solid #c00;
+            border-right: 4px solid #c00;
+            position: relative;
+        }
+
+        /* Geometric network overlay (inspired by kickoff slides) */
+        #menu-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(200, 0, 0, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(200, 0, 0, 0.10) 0%, transparent 50%),
+                linear-gradient(45deg, transparent 45%, rgba(200, 0, 0, 0.05) 46%, transparent 47%);
+            pointer-events: none;
+            opacity: 0.7;
+            z-index: 0;
         }
 
         .header {
             text-align: center;
-            padding: 30px 20px;
+            padding: 40px 15px;
             background: linear-gradient(135deg, #c00, #600);
-            border-radius: 15px;
+            border-radius: 12px;
             margin-bottom: 25px;
-            box-shadow: 0 6px 15px rgba(200, 0, 0, 0.4);
+            box-shadow: 0 8px 25px rgba(200, 0, 0, 0.6);
+            position: relative;
+            z-index: 1;
         }
 
         .header h1 {
-            font-size: 38px;
+            font-size: 52px;
             color: #fff;
             margin: 0;
-            text-shadow: 0 0 12px #f00;
+            font-weight: bold;
+            text-shadow: 0 0 15px #f00;
+            letter-spacing: 4px;
         }
 
         .header h2 {
-            font-size: 20px;
+            font-size: 26px;
             color: #ddd;
-            margin: 8px 0 0;
+            margin: 10px 0 6px;
+            font-weight: 300;
+        }
+
+        .header h3 {
+            font-size: 18px;
+            color: #aaa;
+            margin: 0;
+            font-style: italic;
+        }
+
+        .path-bar {
+            background: linear-gradient(to right, #1e1e1e, #0f0f0f);
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 15px;
+            color: #ccc;
+            display: none;
+            border-left: 4px solid #c00;
+            box-shadow: inset 0 0 10px rgba(200, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .path-bar span {
+            color: #ff4444;
+            font-weight: bold;
+        }
+
+        .path-bar .node {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #c00;
+            border-radius: 50%;
+            margin: 0 8px;
+            vertical-align: middle;
         }
 
         .section-header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 16px 20px;
-            color: #fff;
+            padding: 16px 18px;
             font-size: 20px;
             font-weight: bold;
-            border-radius: 12px;
-            margin: 15px 0 8px;
+            border-radius: 10px;
+            margin: 15px 0 12px;
             cursor: pointer;
             user-select: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
-            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+            transition: transform 0.15s;
+            position: relative;
+            z-index: 1;
         }
 
-        .section-header:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+        .section-header:active {
+            transform: scale(0.98);
         }
 
-        .section-header .chevron {
-            font-size: 28px;
-            transition: transform 0.4s ease;
+        .favorites-header {
+            background: linear-gradient(to right, #b8860b, #8b6914);
+            color: #fff;
+            border-left: 6px solid #ffd700;
+            box-shadow: 0 6px 18px rgba(255, 215, 0, 0.4);
         }
 
-        .section-header.collapsed .chevron {
-            transform: rotate(-90deg);
+        .favorites-header i {
+            margin-right: 12px;
+            font-size: 26px;
+            color: #ffd700;
         }
 
-        /* Color-coded section headers - intuitive visual grouping */
-        .header-prepare {
+        .back-button {
+            display: flex;
+            align-items: center;
+            padding: 14px 16px;
             background: linear-gradient(to right, #c00, #900);
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.15s, box-shadow 0.15s;
         }
 
-        /* Red - Critical prep */
-        .header-robots {
-            background: linear-gradient(to right, #b22222, #800000);
+        .back-button:active {
+            transform: scale(0.97);
+            box-shadow: 0 0 20px rgba(200, 0, 0, 0.7);
         }
 
-        /* Deep red - Motion */
-        .header-grippers {
-            background: linear-gradient(to right, #1e90ff, #104e8b);
-        }
-
-        /* Blue - Tools/Control */
-        .header-handling {
-            background: linear-gradient(to right, #228b22, #006400);
-        }
-
-        /* Green - Process */
-        .header-vision {
-            background: linear-gradient(to right, #ffd700, #cdad00);
-            color: #000;
-        }
-
-        /* Yellow - Monitoring */
-        .header-favorites {
-            background: linear-gradient(to right, #4b0082, #2f004f);
-        }
-
-        /* Purple - Quick access */
-
-        .submenu {
-            overflow: hidden;
-            transition: max-height 0.6s ease, padding 0.6s ease;
-            max-height: 4000px;
-            padding: 10px 20px;
-        }
-
-        .submenu.collapsed {
-            max-height: 0;
-            padding: 0 20px;
+        .back-button i {
+            margin-right: 14px;
+            font-size: 20px;
         }
 
         .item {
             display: flex;
             align-items: center;
-            padding: 18px 16px;
-            background: #1c1c1c;
-            margin: 12px 0;
-            border-radius: 14px;
-            border-left: 8px solid #c00;
-            transition: all 0.3s ease;
+            padding: 14px 14px;
+            background: #1e1e1e;
+            margin: 10px 0;
+            border-radius: 12px;
+            border-left: 5px solid #c00;
+            transition: transform 0.12s, box-shadow 0.12s;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
         }
 
-        .item:hover {
-            background: #2a2a2a;
-            transform: translateX(10px);
-            box-shadow: 0 8px 20px rgba(200, 0, 0, 0.25);
+        .item:active {
+            transform: scale(0.97);
+            box-shadow: 0 0 18px rgba(200, 0, 0, 0.5);
         }
 
         .item.disabled {
             opacity: 0.55;
             border-left-color: #555;
+            cursor: not-allowed;
+        }
+
+        .item.favorite-item {
+            border-left: 5px solid #ffd700;
+            background: rgba(255, 215, 0, 0.08);
+        }
+
+        .item-icon-container {
+            width: 48px;
+            height: 48px;
+            margin-right: 16px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
         }
 
         .item-icon {
-            width: 52px;
-            height: 52px;
-            margin-right: 20px;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
-            filter: brightness(1.5) contrast(1.2);
-            background: rgba(255, 255, 255, 0.08);
-            padding: 8px;
-            border-radius: 12px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.07);
+            padding: 6px;
+            transition: opacity 0.2s;
+        }
+
+        .item-icon.generic {
+            background: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            color: #666;
         }
 
         .item-content {
             flex: 1;
+            min-width: 0;
         }
 
         .item-title {
-            font-size: 19px;
+            font-size: 17px;
             color: #fff;
             font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 220px;
         }
 
         .item-subtext {
-            font-size: 14px;
+            font-size: 13px;
             color: #bbb;
-            margin-top: 4px;
+            margin-top: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 220px;
+        }
+
+        .checklist-icon {
+            color: #32cd32;
+            margin-right: 8px;
+            font-size: 20px;
+        }
+
+        .favorite-star {
+            color: #ffd700;
+            margin-left: 10px;
+            font-size: 22px;
         }
 
         .item-button {
-            padding: 12px 22px;
+            padding: 10px 16px;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 14px;
             cursor: pointer;
-            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.6);
-            transition: all 0.25s;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+            transition: transform 0.12s;
+            white-space: nowrap;
+            max-width: 130px;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .item-button:hover {
-            transform: scale(1.08);
+        .item-button:active {
+            transform: scale(0.96);
         }
 
         .btn-robot {
@@ -191,7 +292,7 @@
         }
 
         .btn-action {
-            background: linear-gradient(to bottom, #ffd700, #cdad00);
+            background: linear-gradient(to bottom, #ffc107, #e0a800);
             color: #000;
         }
 
@@ -205,212 +306,389 @@
             color: #fff;
         }
 
-        .checklist-icon {
-            color: #32cd32;
-            font-weight: bold;
-            margin-right: 10px;
-            font-size: 22px;
+        .level {
+            transition: opacity 0.35s ease, transform 0.35s ease;
         }
 
-        .favorite-star {
-            color: #ffd700;
-            margin-left: 14px;
-            font-size: 24px;
-        }
-
-        #status {
-            color: #0f0;
-            font-size: 14px;
-            margin: 10px 0;
-            text-align: center;
+        .level.hidden {
+            opacity: 0;
+            transform: translateX(-25px);
+            pointer-events: none;
+            height: 0;
+            overflow: hidden;
         }
     </style>
 </head>
 
 <body>
-    <div class="menu-container">
+    <div id="menu-container">
         <div class="header">
             <h1>QPoint</h1>
             <h2>Robotic Solutions</h2>
+            
         </div>
 
-        <!-- Status area - receives messages from supervisory app -->
-        <div id="status">Waiting for supervisory app updates...</div>
+        <div id="path-bar"></div>
 
-        <!-- Prepare for Operation (Red) -->
-        <div class="section-header header-prepare" onclick="toggleSection(this)">
-            Prepare for Operation <span class="chevron">▼</span>
-        </div>
-        <div class="submenu">
-            <div class="item">
-                <div class="item-content">
-                    <div class="item-title"><span class="checklist-icon">✓</span>Robot Move - R1 Near</div>
-                    <div class="item-subtext">Ready / Robot not Ready</div>
-                </div>
-                <button class="item-button btn-robot" onclick="webPageActivity('MOVE_R1_NEAR')">Move</button>
-            </div>
-            <div class="item">
-                <div class="item-content">
-                    <div class="item-title"><span class="checklist-icon">✓</span>Robot Move - R2 Far</div>
-                    <div class="item-subtext">Need Other Robot at Side</div>
-                </div>
-                <button class="item-button btn-robot" onclick="webPageActivity('MOVE_R2_FAR')">Move</button>
-            </div>
-            <div class="item">
-                <div class="item-content">
-                    <div class="item-title">Enter Auto Mode</div>
-                </div>
-                <button class="item-button btn-device" onclick="webPageActivity('ENTER_AUTO')">Start</button>
-            </div>
-        </div>
-
-        <!-- Robots (Deep Red) -->
-        <div class="section-header header-robots collapsed" onclick="toggleSection(this)">
-            Robots <span class="chevron">▼</span>
-        </div>
-        <div class="submenu collapsed">
-            <div class="item">
-                <img class="item-icon" src="_Graphics/GLG_Robot.jpg" alt="Near Robot">
-                <div class="item-content">
-                    <div class="item-title">Near Robot</div>
-                    <div class="item-subtext">SafeNot Found</div>
-                </div>
-                <button class="item-button btn-robot" onclick="webPageActivity('ROBOT_NEAR')">Move</button>
-            </div>
-            <div class="item">
-                <img class="item-icon" src="_Graphics/GLG_Robot.jpg" alt="Far Robot">
-                <div class="item-content">
-                    <div class="item-title">Far Robot</div>
-                    <div class="item-subtext">SafeNot Found</div>
-                </div>
-                <button class="item-button btn-robot" onclick="webPageActivity('ROBOT_FAR')">Move</button>
-            </div>
-        </div>
-
-        <!-- Grippers & Tools (Blue) -->
-        <div class="section-header header-grippers collapsed" onclick="toggleSection(this)">
-            Grippers & Tools <span class="chevron">▼</span>
-        </div>
-        <div class="submenu collapsed">
-            <div class="item">
-                <img class="item-icon" src="_Graphics/GC-CupTool.jpg" alt="Near Gripper">
-                <div class="item-content">
-                    <div class="item-title">Near Gripper</div>
-                    <div class="item-subtext">Released</div>
-                </div>
-                <button class="item-button btn-device" onclick="webPageActivity('GRIP_NEAR')">Grip</button>
-                <span class="favorite-star">★</span>
-            </div>
-            <div class="item">
-                <img class="item-icon" src="_Graphics/GC-CupTool.jpg" alt="Far Gripper">
-                <div class="item-content">
-                    <div class="item-title">Far Gripper</div>
-                    <div class="item-subtext">Released</div>
-                </div>
-                <button class="item-button btn-device" onclick="webPageActivity('GRIP_FAR')">Grip</button>
-            </div>
-        </div>
-
-        <!-- Material Handling (Green) -->
-        <div class="section-header header-handling collapsed" onclick="toggleSection(this)">
-            Material Handling <span class="chevron">▼</span>
-        </div>
-        <div class="submenu collapsed">
-            <div class="item">
-                <img class="item-icon" src="_Graphics/GLG_Conveyor.JPG" alt="Conveyor">
-                <div class="item-content">
-                    <div class="item-title">Conveyor</div>
-                    <div class="item-subtext">Overhang Shift</div>
-                </div>
-                <button class="item-button btn-device" onclick="webPageActivity('CONVEYOR_RUN')">Run</button>
-            </div>
-            <div class="item">
-                <img class="item-icon" src="_Graphics/GLG_Rack.jpg" alt="Rack">
-                <div class="item-content">
-                    <div class="item-title">Rack</div>
-                    <div class="item-subtext">2% Full</div>
-                </div>
-                <button class="item-button btn-action" onclick="webPageActivity('RACK_LOAD')">Load</button>
-            </div>
-        </div>
-
-        <!-- Vision & Safety (Yellow) -->
-        <div class="section-header header-vision collapsed" onclick="toggleSection(this)">
-            Vision & Safety <span class="chevron">▼</span>
-        </div>
-        <div class="submenu collapsed">
-            <div class="item">
-                <img class="item-icon" src="_Graphics/GC-Camera.jpg" alt="Glass Position">
-                <div class="item-content">
-                    <div class="item-title">Glass Position</div>
-                    <div class="item-subtext">0000 n/a</div>
-                </div>
-                <button class="item-button btn-nav" onclick="webPageActivity('GLASS_DETECT')">Detect</button>
-            </div>
-            <div class="item">
-                <img class="item-icon" src="_Graphics/EStop.jpg" alt="Safety">
-                <div class="item-content">
-                    <div class="item-title">Safety</div>
-                </div>
-                <button class="item-button btn-action" onclick="webPageActivity('SAFETY_CLEAR')">Clear</button>
-            </div>
-        </div>
-
-        <!-- Favorites (Purple) -->
-        <div class="section-header header-favorites" onclick="toggleSection(this)">
-            Favorites <span class="chevron">▼</span>
-        </div>
-        <div class="submenu">
-            <div class="item">
-                <img class="item-icon" src="_Graphics/GC-CupTool.jpg" alt="Near Gripper">
-                <div class="item-content">
-                    <div class="item-title">Near Gripper</div>
-                </div>
-                <button class="item-button btn-device" onclick="webPageActivity('FAV_GRIP')">Grip</button>
-            </div>
-        </div>
+        <div id="levels-container"></div>
     </div>
 
     <script>
-        // Toggle section expand/collapse
-        function toggleSection(header) {
-            header.classList.toggle('collapsed');
-            const submenu = header.nextElementSibling;
-            submenu.classList.toggle('collapsed');
+        let navStack = [];
+
+        // Font Awesome icons for root-level categories (replaces images)
+        const ROOT_ICONS = {
+            favorites: '<i class="fas fa-star" style="color:#ffd700;"></i>',
+            prepare: '<i class="fas fa-tools" style="color:#ff9800;"></i>',
+            robots: '<i class="fas fa-robot" style="color:#f44336;"></i>',
+            grippers_tools: '<i class="fas fa-hand-holding" style="color:#4caf50;"></i>',
+            material_handling: '<i class="fas fa-boxes" style="color:#2196f3;"></i>',
+            vision_positioning: '<i class="fas fa-eye" style="color:#9c27b0;"></i>',
+            safety_io: '<i class="fas fa-shield-alt" style="color:#ff5722;"></i>',
+            cell_control: '<i class="fas fa-server" style="color:#3f51b5;"></i>'
+        };
+
+        const GENERIC_ICON_SVG = `
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="45" fill="#333" />
+                <text x="50" y="60" font-size="50" text-anchor="middle" fill="#666">?</text>
+            </svg>
+        `;
+
+        // Sample JSON (Favorites at top, root categories use Font Awesome icons)
+        const sampleJson = {
+            menuVersion: "1.2",
+            lastUpdated: "2026-01-28T15:00:00Z",
+            root: [
+                {
+                    id: "favorites",
+                    type: "heading",
+                    headingText: "Favorites",
+                    subText: "Quick Access",
+                    enabled: true,
+                    isFavoriteSection: true,
+                    children: [
+                        {
+                            id: "grip_near_fav",
+                            type: "action",
+                            buttonText: "Near Gripper",
+                            fullPath: "<RoboApps>\\RoboApp_ModbusVacTool.vi",
+                            actionType: "device_control",
+                            enabled: true,
+                            statusText: "Released",
+                            icon: "GC-CupTool.jpg",
+                            favorite: true
+                        },
+                        {
+                            id: "clear_alarms_fav",
+                            type: "action",
+                            buttonText: "Clear Alarms",
+                            fullPath: "<RoboApps>\\NODE_Safety_LIP-Enet.vi",
+                            actionType: "system",
+                            enabled: true,
+                            statusText: "No Active Alarms",
+                            icon: "EStop.jpg",
+                            favorite: true
+                        },
+                        {
+                            id: "r1_near_fav",
+                            type: "action",
+                            buttonText: "R1 Near",
+                            fullPath: "<RoboApps>\\RoboApp_6AxisRobot.vi",
+                            actionType: "robot_motion",
+                            enabled: true,
+                            statusText: "Ready",
+                            icon: "GLG_Robot.jpg",
+                            favorite: true
+                        }
+                    ]
+                },
+                {
+                    id: "prepare",
+                    type: "heading",
+                    headingText: "Prepare for Operation",
+                    subText: "Startup & Safety Checklist",
+                    enabled: true,
+                    children: [
+                        {
+                            id: "r1_near",
+                            type: "action",
+                            buttonText: "R1 Near",
+                            fullPath: "<RoboApps>\\RoboApp_6AxisRobot.vi",
+                            actionType: "robot_motion",
+                            enabled: true,
+                            statusText: "Ready",
+                            icon: "GLG_Robot.jpg"
+                        },
+                        {
+                            id: "r2_far",
+                            type: "action",
+                            buttonText: "R2 Far",
+                            fullPath: "<RoboApps>\\RoboApp_Additional6AxisRobot.vi",
+                            actionType: "robot_motion",
+                            enabled: false,
+                            statusText: "SafeNot Found",
+                            icon: "GLG_Robot.jpg"
+                        }
+                    ]
+                },
+                {
+                    id: "robots",
+                    type: "heading",
+                    headingText: "Robots",
+                    subText: "Motion Control",
+                    enabled: true,
+                    children: [
+                        {
+                            id: "near_robot",
+                            type: "heading",
+                            headingText: "Near Robot",
+                            subText: "6-Axis",
+                            enabled: true,
+                            children: [
+                                {
+                                    id: "move_pathend",
+                                    type: "action",
+                                    buttonText: "Move To PATHEND",
+                                    fullPath: "<RoboApps>\\RoboApp_6AxisRobot.vi",
+                                    actionType: "robot_motion",
+                                    enabled: true,
+                                    statusText: "Ready"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: "grippers_tools",
+                    type: "heading",
+                    headingText: "Grippers & Tools",
+                    subText: "Vacuum & Generic",
+                    enabled: true,
+                    children: [
+                        {
+                            id: "near_gripper",
+                            type: "action",
+                            buttonText: "Near Gripper",
+                            fullPath: "<RoboApps>\\RoboApp_ModbusVacTool.vi",
+                            actionType: "device_control",
+                            enabled: true,
+                            statusText: "Released",
+                            icon: "GC-CupTool.jpg"
+                        }
+                    ]
+                },
+                {
+                    id: "material_handling",
+                    type: "heading",
+                    headingText: "Material Handling",
+                    subText: "Conveyor & Rack",
+                    enabled: true,
+                    children: [
+                        {
+                            id: "conveyor",
+                            type: "action",
+                            buttonText: "Conveyor",
+                            fullPath: "<RoboApps>\\RoboApp_ConveyorPickZone.vi",
+                            actionType: "device_control",
+                            enabled: true,
+                            statusText: "15 Cprs",
+                            icon: "GLG_Conveyor.JPG"
+                        }
+                    ]
+                },
+                {
+                    id: "vision_positioning",
+                    type: "heading",
+                    headingText: "Vision & Positioning",
+                    subText: "Camera & Alignment",
+                    enabled: true,
+                    children: [
+                        {
+                            id: "glass_position",
+                            type: "action",
+                            buttonText: "Glass Position",
+                            fullPath: "<RoboApps>\\RoboApp_GlassPositionCamera.vi",
+                            actionType: "vision",
+                            enabled: true,
+                            statusText: "0000 n/a",
+                            icon: "GC-Camera.jpg"
+                        }
+                    ]
+                },
+                {
+                    id: "safety_io",
+                    type: "heading",
+                    headingText: "Safety & IO",
+                    subText: "E-Stop & Communication",
+                    enabled: true,
+                    children: [
+                        {
+                            id: "safety_main",
+                            type: "action",
+                            buttonText: "Safety",
+                            fullPath: "<RoboApps>\\NODE_Safety_LIP-Enet.vi",
+                            actionType: "system",
+                            enabled: true,
+                            statusText: "15 Cprs",
+                            icon: "EStop.jpg"
+                        }
+                    ]
+                },
+                {
+                    id: "cell_control",
+                    type: "heading",
+                    headingText: "Cell Control",
+                    subText: "Automation Flow",
+                    enabled: true,
+                    children: [
+                        {
+                            id: "cell_main",
+                            type: "action",
+                            buttonText: "Cell Control",
+                            fullPath: "<RoboApps>\\NODE_AutomationFlowManager.vi",
+                            actionType: "system",
+                            enabled: true,
+                            statusText: "5 Cprs",
+                            icon: "qpoint.jpg"
+                        }
+                    ]
+                }
+            ]
+        };
+
+        function loadMenu(json) {
+            const container = document.getElementById('levels-container');
+            container.innerHTML = '';
+
+            const rootLevel = createLevel('root', json.root || json, null);
+            container.appendChild(rootLevel);
+            navStack = ['root'];
+            showLevel('root');
         }
 
-        // Send activity to supervisory app (IMPORTANT FUNCTION)
-        function webPageActivity(message) {
-            console.log('WebPageActivity:', message);
-            // In real WebView2: window.chrome.webview.postMessage(message);
-            // For demo: show on page
-            document.getElementById('status').innerText = 'Sent to app: ' + message;
-        }
+        function createLevel(levelId, items, parentId) {
+            const div = document.createElement('div');
+            div.id = `level-${levelId}`;
+            div.className = 'level hidden';
 
-        // Receive messages from supervisory app (C# → JS)
-        window.addEventListener('message', event => {
-            // In real WebView2: window.chrome.webview.addEventListener('message', event => { ... })
-            const data = event.data;
-            console.log('Received from supervisory app:', data);
-            document.getElementById('status').innerText = 'App update: ' + data;
-
-            // Example: change background or item state
-            if (data.includes('background')) {
-                document.body.style.background = '#001122';
+            if (parentId) {
+                const back = document.createElement('div');
+                back.className = 'back-button';
+                back.innerHTML = '<i class="fas fa-arrow-left"></i> Back';
+                back.onclick = () => goBack();
+                div.appendChild(back);
             }
-        });
 
-        // Optional demo functions callable from C#
-        // function setBackground(color) {
-        //     document.body.style.background = color;
-        //     document.getElementById('status').innerText = 'Background changed to: ' + color;
-        // }
+            items.forEach(item => {
+                div.appendChild(createItem(item, levelId));
+            });
 
-
-
-        function updateStatus(text) {
-            document.getElementById('status').innerText = text;
+            return div;
         }
+
+        function createItem(item, currentLevel) {
+            const div = document.createElement('div');
+            div.className = 'item';
+            if (item.favorite) div.classList.add('favorite-item');
+            div.dataset.id = item.id;
+
+            if (!item.enabled) div.classList.add('disabled');
+
+            // Icon handling
+            let iconHtml = '';
+            if (item.type === 'heading' && !item.icon) {
+                // Root category: use Font Awesome icon (colorful)
+                const faIcon = ROOT_ICONS[item.id] || '<i class="fas fa-question-circle" style="color:#888;"></i>';
+                iconHtml = `<div class="item-icon-container"><div class="item-icon generic">${faIcon}</div></div>`;
+            } else {
+                // Sub-items: use image with onerror fallback
+                const img = document.createElement('img');
+                img.className = 'item-icon';
+                img.alt = item.buttonText || item.headingText;
+                img.src = item.icon ? `_Graphics/${item.icon}` : '';
+                img.onerror = () => {
+                    img.style.display = 'none';
+                    const generic = document.createElement('div');
+                    generic.className = 'item-icon generic';
+                    generic.innerHTML = GENERIC_ICON_SVG;
+                    img.parentNode.replaceChild(generic, img);
+                };
+                iconHtml = `<div class="item-icon-container">${img.outerHTML}</div>`;
+            }
+
+            let titleHtml = item.headingText || item.buttonText || 'Unnamed';
+            if (item.type === 'checklist_item') {
+                titleHtml = (item.completed ? '<span class="checklist-icon">✓</span>' : '<span class="checklist-icon">☐</span>') + titleHtml;
+            }
+
+            div.innerHTML = `
+                ${iconHtml}
+                <div class="item-content">
+                    <div class="item-title">${titleHtml}</div>
+                    ${item.statusText || item.subText ? `<div class="item-subtext">${item.statusText || item.subText}</div>` : ''}
+                </div>
+                ${item.favorite ? '<span class="favorite-star">★</span>' : ''}
+                ${item.buttonText ? `<button class="item-button ${getButtonClass(item.actionType)}">${item.buttonText}</button>` : ''}
+            `;
+
+            div.onclick = () => {
+                if (!item.enabled) return;
+
+                if (item.children && item.children.length > 0) {
+                    const childLevelId = `${currentLevel}-${item.id}`;
+                    let childLevel = document.getElementById(`level-${childLevelId}`);
+                    if (!childLevel) {
+                        childLevel = createLevel(childLevelId, item.children, currentLevel);
+                        document.getElementById('levels-container').appendChild(childLevel);
+                    }
+                    navStack.push(childLevelId);
+                    showLevel(childLevelId);
+                } else {
+                    const payload = item.fullPath
+                        ? `${item.id}|${item.fullPath}`
+                        : `Action: ${item.id} - ${item.buttonText || item.headingText}`;
+                    webPageActivity(payload);
+                }
+            };
+
+            return div;
+        }
+
+        function showLevel(levelId) {
+            document.querySelectorAll('.level').forEach(l => l.classList.add('hidden'));
+            document.getElementById(`level-${levelId}`).classList.remove('hidden');
+
+            const pathBar = document.getElementById('path-bar');
+            const pathText = navStack.map((id, idx) => {
+                const name = id === 'root' ? 'QPoint Menu' : id.split('-').pop().replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+                return idx === navStack.length - 1 ? `<span>${name}</span>` : name;
+            }).join(' <span class="node"> > </span> ');
+            pathBar.innerHTML = pathText;
+            pathBar.style.display = navStack.length > 1 ? 'block' : 'none';
+        }
+
+        function goBack() {
+            if (navStack.length > 1) {
+                navStack.pop();
+                showLevel(navStack[navStack.length - 1]);
+            }
+        }
+
+        function getButtonClass(type) {
+            if (type === 'robot_motion') return 'btn-robot';
+            if (type === 'device_control') return 'btn-device';
+            if (type === 'action') return 'btn-action';
+            return 'btn-nav';
+        }
+
+        function webPageActivity(message) {
+            console.log('Sent to supervisory app:', message);
+            // In WebView2: window.chrome.webview.postMessage(message);
+        }
+
+        // Load the sample JSON
+        loadMenu(sampleJson);
     </script>
 </body>
 

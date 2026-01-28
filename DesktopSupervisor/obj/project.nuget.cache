@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "3ar3jAxnxJg=",
+  "success": true,
+  "projectFilePath": "C:\\Work\\QPoint-Web-Menu\\DesktopSupervisor\\DesktopSupervisor.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.web.webview2\\1.0.3719.77\\microsoft.web.webview2.1.0.3719.77.nupkg.sha512"
+  ],
+  "logs": []
+}
