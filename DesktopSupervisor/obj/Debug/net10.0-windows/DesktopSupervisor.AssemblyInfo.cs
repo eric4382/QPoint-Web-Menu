@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DesktopSupervisor")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+328572621dee62033ece2756e1a4369c7e99d34a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f3cd72135bbd6dddf532d5f9079b748b7882f139")]
 [assembly: System.Reflection.AssemblyProductAttribute("DesktopSupervisor")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DesktopSupervisor")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
